@@ -12,7 +12,22 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathquill@0.10.1/build/mathquill.min.js"></script>
   
+  <!-- Main CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  
+  <!-- Fallback inline CSS (if static file fails) -->
+  <noscript>
+    <style>
+      body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; padding: 30px 20px; color: #2c3e50; line-height: 1.6; }
+      .container { max-width: 1200px; margin: 0 auto; background: #ffffff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow: hidden; border: 1px solid #e8ecf0; }
+      .header { background: linear-gradient(135deg, #1e3a5f 0%, #3b82f6 100%); color: white; padding: 45px 60px; text-align: center; }
+      .content { padding: 50px 60px; }
+      table { border-collapse: collapse; width: 100%; background: white; }
+      th { background: #f8fafc; color: #4a5568; padding: 12px 10px; font-weight: 600; border-bottom: 2px solid #e8ecf0; }
+      td { border-bottom: 1px solid #f1f5f9; padding: 10px; text-align: center; }
+      .btn-calculate { background: #3b82f6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; padding: 12px 32px; margin-top: 18px; }
+    </style>
+  </noscript>
 </head>
 <body>
 
@@ -122,5 +137,18 @@
   </div>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
+  
+  <!-- Fallback: Load JS inline if static file fails -->
+  <script>
+  window.addEventListener('load', function() {
+    // Check if main script loaded (look for a known function)
+    if (typeof formatNum === 'undefined') {
+      console.warn('Static JS failed to load. Check Vercel deployment.');
+      var script = document.createElement('script');
+      script.src = "{{ url_for('static', filename='script.js') }}";
+      document.body.appendChild(script);
+    }
+  });
+  </script>
 </body>
 </html>
